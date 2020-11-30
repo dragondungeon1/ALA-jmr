@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Product index{% endblock %}
+
+{% block body %}
+    <h1>Cart index</h1>
+
+{#    <table class="table">#}
+{#        <thead>#}
+{#        <tr>#}
+{#            <th>Id</th>#}
+{#            <th>Prodname</th>#}
+{#            <th>Description</th>#}
+{#            <th>Img</th>#}
+{#            <th>actions</th>#}
+{#            <th>img</th>#}
+{#            <th>Categorie</th>#}
+{#            <th>Spec type</th>#}
+{#            <th>price</th>#}
+{#        </tr>#}
+{#        </thead>#}
+{#        <tbody>#}
+        {% for product in products %}
+{#            <tr>#}
+{#                <td>{{ product.id }}</td>#}
+{#                <td>{{ product.prodname }}</td>#}
+{#                <td>{{ product.description }}</td>#}
+{#                <td>{{ product.img }}</td>#}
+{#                <td>#}
+{#                    <a href="{{ path('product_show', {'id': product.id}) }}">show</a>#}
+{#                    <a href="{{ path('product_edit', {'id': product.id}) }}">edit</a>#}
+{#                </td>#}
+{#                <td><img src="{{ product.img }}" alt="je moer"></td>#}
+{#                <td>{{ product.categorie }}</td>#}
+                <td>{% for specification in product.specifications %}
+
+{#                        {{ specification }}#}
+                    {% endfor %}
+{#                </td>#}
+{#                <td>{{ product.price }}</td>#}
+{#            </tr>#}
+        {% else %}
+{#            <tr>#}
+{#                <td colspan="5">no records found</td>#}
+{#            </tr>#}
+        {% endfor %}
+{#        </tbody>#}
+{#    </table>#}
+
+    <div class="d-flex justify-content-center">
+        {% for product in products %}
+            <div class="card">
+                <img src="{{ product.img }}" alt="Denim Jeans" style="width:100%">
+                <h1>{{ product.prodname }}</h1>
+                <p class="price">€{{ product.price }}</p>
+                <p>{{ product.description }}</p>
+                <p><button>Add to Cart</button></p>
+            </div>
+        {% endfor %}
+    </div>
+
+    <style>
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            max-width: 300px;
+            margin: auto;
+            text-align: center;
+            font-family: arial;
+        }
+
+        .price {
+            color: grey;
+            font-size: 22px;
+        }
+
+        .card button {
+            border: none;
+            outline: 0;
+            padding: 12px;
+            color: white;
+            background-color: #000;
+            text-align: center;
+            cursor: pointer;
+            width: 100%;
+            font-size: 18px;
+        }
+
+        .card button:hover {
+            opacity: 0.7;
+        }
+    </style>
+
+{#    <a href="{{ path('product_new') }}">Create new</a>#}
+{% endblock %}
