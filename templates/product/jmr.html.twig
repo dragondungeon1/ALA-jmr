@@ -117,10 +117,12 @@
     <script>
         let arrbutton = document.getElementsByClassName('drgn');
         for (i = 0; i < arrbutton.length; i++) {
-            arrbutton[i].addEventListener('click', ajax)
+            arrbutton[i].addEventListener('click', function (event) {
+                ajax(event.target)
+            })
         }
 
-        function ajax(id) {
+        function ajax(element) {
             fetch('localhost:8000/drum/', {
                 method: 'POST',
                 body: JSON.stringify({
