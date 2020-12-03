@@ -16,18 +16,14 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class CartController extends AbstractController
 
 {
-    private  $session;
-    private  $em;
-    public function  __construct(SessionInterface $session , EntityManagerInterface $entityManager)
+    private $session;
+    private $em;
+
+    public function __construct(SessionInterface $session, EntityManagerInterface $entityManager)
     {
         $this->session = $session;
         $this->em = $entityManager;
 
-    }
-    public function session(){
-        $this->session->set('session', 'foo' );
-        $foo = $this->session->get('session');
-        $filters = $this ->session->get('filters',[]);
     }
 
     /**
@@ -43,51 +39,68 @@ class CartController extends AbstractController
         ]);
     }
 
+    public function session()
+    {
+        $this->session->set('session', 'foo');
+        $foo = $this->session->get('session');
+        $filters = $this->session->get('filters', []);
+    }
+//this will be the add function
+
     /**
      * @Route("/drum/{id}", name="drum")
      * @param Product $product
      * @return Response
      */
-    public function add(Product $product){
-        $products = $this->session->get('Products' , []);
+    public function add(Product $product)
+    {
+        $products = $this->session->get('Products', []);
+//        dd($products);
+//        session_destroy();
 
-
-
-        if (isset ($products[$product->getId()])){
+        if (isset ($products[$product->getId()])) {
             $products[$product->getId()]->amount++;
-        }else{
-            $product->amount = 1 ;
-
-            $products[$product->getId()]  =  $product;//zet product in de array
-
+        } else {
+            $product->amount = 1;
+            $products[$product->getId()] = $product;//zet product in de array
         }
         $this->session->set('Products', $products);
-                    dd($products);
-//                session_destroy();
-
-        return $this->render    ('product/jmr.html.twig' , [
-            $this->session->get('Products' , []),
-            'products' => $products,
-        ]);
-
+        return new JsonResponse(
+            [
+                "status" => "200",
+                "products" => $products
+            ],
+            200
+        );
     }
-//$object->propertyName = $value; // set property
-//$variable = $object->propertyName // get property
-//dd($products);
 
+    /**
+     * @Route("/minus/{id}", name="minus")
+     * @param Product $product
+     * @return Response
+     */
+    public function minus(Product $product)
+    {
+        $products = $this->session->get('Products', []);
 
-//    public function button(Product $product){
-//        $id = $request->request->get('id');
-//        $products = $this->session->get('Product' , []);
-//        $quantity = $product->;
-//        return new JsonResponse(
-//            [
-//                "quantity" => $product
-//            ]
-//        );
-//    }
+        if (isset($products[$product->getId()])) { //checkt of een variable bestaat
+            $products[$product->getId()]->amount--;
+            if ($products[$product->getId()]->amount == 0) {
+                unset($products[$product->getId()]);
+            }
+        }
+        $this->session->set('Products', $products);
+        return new JsonResponse(
+            [
+                "status" => "200",
+                "products" => $products
+            ],
+            200
+        );
+    }
 
     // this is the payment function
+
     /**
      * @Route("/spa", name="spa")
      */
@@ -97,9 +110,9 @@ class CartController extends AbstractController
         $Order = new Order();
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
-        $user =  $em->getRepository(User::class)->find($user->getId());
+        $user = $em->getRepository(User::class)->find($user->getId());
         dd(($this->session->get('Product')));
-        $product =  $em->getRepository(Product::class)->find($this->session->get('product'));
+        $product = $em->getRepository(Product::class)->find($this->session->get('product'));
 
         $Order->setUser($user);
 //        $Order->setSchool($this->session->get('school'));
