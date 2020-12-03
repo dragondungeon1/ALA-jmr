@@ -4,7 +4,6 @@
 
 {% block body %}
     <h1>Cart index</h1>
-
 {#    <table class="table">#}
 {#        <thead>#}
 {#        <tr>#}
@@ -46,18 +45,29 @@
         {% endfor %}
 {#        </tbody>#}
 {#    </table>#}
-
-    <div class="d-flex justify-content-center">
+<div class="jmr " >
+    <div class=" pech ">
         {% for product in products %}
             <div class="card">
                 <img src="{{ product.img }}" alt="Denim Jeans" style="width:100%">
                 <h1>{{ product.prodname }}</h1>
                 <p class="price">€{{ product.price }}</p>
                 <p>{{ product.description }}</p>
-                <p><button>Add to Cart</button></p>
-            </div>
+                <p>{% for specification in product.specifications %}
+
+                        {{ specification }}
+                    {% endfor %}</p>
+                <button class="btn-primary">-</button>
+                <button class="btn-primary">+</button>            </div>
         {% endfor %}
     </div>
+</div>
+
+{#<div>#}
+{#    <button class="btn-primary">-</button>#}
+{#    <button class="btn-primary">+</button>#}
+{#</div>#}
+
 
     <style>
         .card {
@@ -88,6 +98,17 @@
         .card button:hover {
             opacity: 0.7;
         }
+
+        .jmr{
+            display: flex;
+            justify-content: space-between;
+        }
+        .pech{
+            display: flex;
+            justify-content: space-evenly;
+            flex-wrap: wrap;
+        }
+
     </style>
 
 {#    <a href="{{ path('product_new') }}">Create new</a>#}

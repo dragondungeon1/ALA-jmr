@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 
 class CartController extends AbstractController
 
@@ -47,15 +49,43 @@ class CartController extends AbstractController
      * @return Response
      */
     public function add(Product $product){
-        $this->session->set('Product' , $product->getId());
-        $products[] = $product;
-        return $this->render('product/jmr.html.twig' , [
+        $products = $this->session->get('Products' , []);
+
+
+
+        if (isset ($products[$product->getId()])){
+            $products[$product->getId()]->amount++;
+        }else{
+            $product->amount = 1 ;
+
+            $products[$product->getId()]  =  $product;//zet product in de array
+
+        }
+        $this->session->set('Products', $products);
+                    dd($products);
+//                session_destroy();
+
+        return $this->render    ('product/jmr.html.twig' , [
+            $this->session->get('Products' , []),
             'products' => $products,
         ]);
 
     }
+//$object->propertyName = $value; // set property
+//$variable = $object->propertyName // get property
+//dd($products);
 
 
+//    public function button(Product $product){
+//        $id = $request->request->get('id');
+//        $products = $this->session->get('Product' , []);
+//        $quantity = $product->;
+//        return new JsonResponse(
+//            [
+//                "quantity" => $product
+//            ]
+//        );
+//    }
 
     // this is the payment function
     /**
