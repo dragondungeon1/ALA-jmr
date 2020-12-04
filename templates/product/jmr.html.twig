@@ -46,9 +46,9 @@
     {#        </tbody>#}
     {#    </table>#}
     <div class="jmr">
-        <div class="pech">
+        <div  class="pech">
             {% for product in products %}
-                <div class="card">
+                <div id="prodcard{{ product.id }}" class="card">
                     <img src="{{ product.img }}" alt="Denim Jeans" style="width:100%">
                     <h1>{{ product.prodname }}</h1>
                     <p class="price">€{{ product.price }}</p>
@@ -58,9 +58,10 @@
                             {{ specification }}
                         {% endfor %}</p>
                     <button value="minus" id="{{ product.id }}" class=" drgn btn-primary">-</button>
-                    <button value="plus"  id="{{ product.id }}" class=" drgn btn-primary">+</button>
+                    <button value="plus" id="{{ product.id }}" class=" drgn btn-primary">+</button>
                     <br>
-                    <p>Amount:{{ product.amount }}</p>
+                    <span>Amount:</span>
+                    <span id="amount{{ product.id }}">{{ product.amount }}</span>
                 </div>
             {% endfor %}
         </div>
@@ -123,18 +124,42 @@
         }
 
         function ajax(element) {
-            fetch('localhost:8000/drum/', {
-                method: 'POST',
-                body: JSON.stringify({
-                    "email": "hello@user.com"
-                })
+            // console.log(element.id)
+            let btnId = element.id;
+            let btnVal = element.value;
+            let newUrl = '/';
+
+            switch (btnVal) {
+                case 'minus':
+                    newUrl += 'minus/';
+                    break;
+                case 'plus':
+                    newUrl += 'drum/';
+                    break;
+            }
+            newUrl += btnId
+
+            // console.log(newUrl)
+            fetch(newUrl, {
+                method: 'GET',
             }).then(function (response) {
                 return response.json()
             }).then(function (data) {
-                // Do a backflip or something else cool
+                // let paraElement = document.getElementById('amount' + btnId)
+
+                if (typeof data.products[btnId] == 'undefined'){
+                    document.getElementById('prodcard' + btnId).remove();
+                }else{
+                    document.getElementById('amount' + btnId).innerHTML = data.products[btnId].amount;
+
+                }
+
+
+
             })
         }
 
     </script>
     <a href="{{ path('product_new') }}">Create new</a>
     {% endblock %}
+    {#    // += neemt de bestaande waarde en voegt er iets aan toe          #}

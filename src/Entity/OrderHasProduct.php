@@ -29,6 +29,11 @@ class OrderHasProduct
      */
     private $productkey;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $amount;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -54,6 +59,18 @@ class OrderHasProduct
     public function setProductkey(?Product $productkey): self
     {
         $this->productkey = $productkey;
+
+        return $this;
+    }
+
+    public function getAmount(): ?int
+    {
+        return $this->amount;
+    }
+
+    public function setAmount(int $amount): self
+    {
+        $this->amount = $amount;
 
         return $this;
     }

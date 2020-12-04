@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Order;
+use App\Entity\OrderHasProduct;
 use App\Entity\Product;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -54,8 +55,10 @@ class CartController extends AbstractController
      */
     public function add(Product $product)
     {
+
+
         $products = $this->session->get('Products', []);
-//        dd($products);
+//        dd(substr($_SERVER['HTTP_REFERER'], -4,-1));
 //        session_destroy();
 
         if (isset ($products[$product->getId()])) {
@@ -65,6 +68,9 @@ class CartController extends AbstractController
             $products[$product->getId()] = $product;//zet product in de array
         }
         $this->session->set('Products', $products);
+        if (substr($_SERVER['HTTP_REFERER'], -4,-1) == 'car'){
+            return $this->redirectToRoute('view');
+        }
         return new JsonResponse(
             [
                 "status" => "200",
@@ -72,6 +78,18 @@ class CartController extends AbstractController
             ],
             200
         );
+    }
+
+    /**
+     * @Route("/view/", name="view")
+     * @return Response
+     */
+    public function view()
+    {
+        $products = $this->session->get('Products', []);
+        return $this->render('product/jmr.html.twig', [
+            'products' => $products
+        ]);
     }
 
     /**
@@ -102,29 +120,35 @@ class CartController extends AbstractController
     // this is the payment function
 
     /**
-     * @Route("/spa", name="spa")
+     * @Route("/payment", name="payment")
      */
     public function order()
     {
-//        dd($this->session->get('School'));
-        $Order = new Order();
+        $order = new Order();
         $user = $this->getUser();
+        $order->setUser($user);
+        $order->setPlacedAt(new \DateTime('now'));
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository(User::class)->find($user->getId());
-        dd(($this->session->get('Product')));
-        $product = $em->getRepository(Product::class)->find($this->session->get('product'));
+//        dd(($this->session->get('Products')));
+        foreach ($this->session->get('Products') as $product){
+            $orderhasproduct = new OrderHasProduct();
+            $orderhasproduct->setOrderkey($order);
+        };
+        dd($order);
+        $product = $em->getRepository(Product::class)->find($this->session->get('Products'));
+        dd($user);
 
-        $Order->setUser($user);
+
 //        $Order->setSchool($this->session->get('school'));
         $Order->setProduct($product);
 
 //        $form = $this->createForm(OrderType::class, $Order);    //please check this again
 //        $form->handleRequest($request);
-        $em->persist($Order);
+        $em->persist($order);
         $em->flush();
 
-        return $this->render('product/spa.html.twig', [
-            'order' => $Order
+        return $this->render('product/jmr.html.twig', [
+            'order' => $order
         ]);
 
     }
