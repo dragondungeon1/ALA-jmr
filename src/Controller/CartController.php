@@ -68,7 +68,7 @@ class CartController extends AbstractController
             $products[$product->getId()] = $product;//zet product in de array
         }
         $this->session->set('Products', $products);
-        if (substr($_SERVER['HTTP_REFERER'], -4,-1) == 'car'){
+        if (substr($_SERVER['HTTP_REFERER'], -4, -1) == 'car') {
             return $this->redirectToRoute('view');
         }
         return new JsonResponse(
@@ -129,27 +129,26 @@ class CartController extends AbstractController
         $order->setUser($user);
         $order->setPlacedAt(new \DateTime('now'));
         $em = $this->getDoctrine()->getManager();
-//        dd(($this->session->get('Products')));
-        foreach ($this->session->get('Products') as $product){
+        $em->persist($order);
+//        $em->flush();
+        foreach ($this->session->get('Products') as $product) {
+            $amount = $product->amount;
             $orderhasproduct = new OrderHasProduct();
             $orderhasproduct->setOrderkey($order);
+            $product = $em->getRepository(Product::class)->find($product->getId());
+            $orderhasproduct->setProductkey($product);;
+            $orderhasproduct->setAmount($amount);
+            $em->persist($orderhasproduct);
+            $em->flush();
         };
-        dd($order);
-        $product = $em->getRepository(Product::class)->find($this->session->get('Products'));
-        dd($user);
 
 
-//        $Order->setSchool($this->session->get('school'));
-        $Order->setProduct($product);
 
-//        $form = $this->createForm(OrderType::class, $Order);    //please check this again
-//        $form->handleRequest($request);
-        $em->persist($order);
-        $em->flush();
-
-        return $this->render('product/jmr.html.twig', [
+        return $this->render('product/thanks.html.twig', [
             'order' => $order
         ]);
 
     }
 }
+//        $object->propertyName = $value; // set property
+//        $variable = $object->propertyName // get property

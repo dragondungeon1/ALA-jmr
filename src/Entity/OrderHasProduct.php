@@ -24,7 +24,8 @@ class OrderHasProduct
     private $orderkey;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="orderHasProducts")
+     * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="orderHasProducts", cascade={"persist"})
+
      * @ORM\JoinColumn(nullable=false)
      */
     private $productkey;

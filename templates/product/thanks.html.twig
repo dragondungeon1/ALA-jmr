@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Thank you for ordering{% endblock %}
+
+{% block body %}
+<h1>Thank you for ordering</h1>
+{#    <table class="table">#}
+{#        <thead>#}
+{#        <tr>#}
+{#            <th>Id</th>#}
+{#            <th>Prodname</th>#}
+{#            <th>Description</th>#}
+{#            <th>Img</th>#}
+{#            <th>actions</th>#}
+{#            <th>img</th>#}
+{#            <th>Categorie</th>#}
+{#            <th>Spec type</th>#}
+{#            <th>price</th>#}
+{#        </tr>#}
+{#        </thead>#}
+{#        <tbody>#}
+        {% for order in order %}
+{#            <tr>#}
+{#                <td>{{ product.id }}</td>#}
+{#                <td>{{ product.prodname }}</td>#}
+{#                <td>{{ product.description }}</td>#}
+{#                <td>{{ product.img }}</td>#}
+{#                <td>#}
+{#                    <a href="{{ path('product_show', {'id': product.id}) }}">show</a>#}
+{#                    <a href="{{ path('product_edit', {'id': product.id}) }}">edit</a>#}
+{#                </td>#}
+{#                <td><img src="{{ product.img }}" alt="je moer"></td>#}
+{#                <td>{{ product.categorie }}</td>#}
+<td>{% for specification in product.specifications %}
+
+        {#                        {{ specification }}#}
+    {% endfor %}
+    {#                </td>#}
+    {#                <td>{{ product.price }}</td>#}
+    {#            </tr>#}
+    {% else %}
+        {#            <tr>#}
+        {#                <td colspan="5">no records found</td>#}
+        {#            </tr>#}
+    {% endfor %}
+    {#        </tbody>#}
+    {#    </table>#}
+    <div class="jmr">
+        <div class="pech">
+            {% for order in order %}
+                <div id="prodcard{{ order.id }}" class="card">
+                    <img src="{{ product.img }}" alt="Denim Jeans" style="width:100%">
+                    <h1>{{ product.prodname }}</h1>
+                    <p class="price">€{{ product.price }}</p>
+                    <p>{{ product.description }}</p>
+                    <p>{% for specification in product.specifications %}
+
+                            {{ specification }}
+                        {% endfor %}</p>
+
+                    <div class="fx-me-flex">
+                        <button value="minus" id="{{ product.id }}" class=" drgn btn">-</button>
+                        <button value="plus" id="{{ product.id }}" class=" drgn btn ">+</button>
+                    </div>
+
+
+                    <span>Amount:</span>
+                    <span id="amount{{ product.id }}">{{ product.amount }}</span>
+
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    {% endblock %}
+    {#    // += neemt de bestaande waarde en voegt er iets aan toe          #}
