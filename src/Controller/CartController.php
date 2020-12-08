@@ -143,11 +143,22 @@ class CartController extends AbstractController
         };
 
 
-
         return $this->render('product/thanks.html.twig', [
             'order' => $order
         ]);
 
+    }
+    /**
+     * @Route("/history", name="history")
+     */
+    public function orderhistory()
+    {
+        $orders = $this->getUser()->getOrders();
+
+
+        return $this->render('product/history.html.twig', [
+            'orders' => $orders
+        ]);
     }
 }
 //        $object->propertyName = $value; // set property
