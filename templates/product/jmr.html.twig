@@ -4,52 +4,13 @@
 
 {% block body %}
 <h1>Cart index</h1>
-{#    <table class="table">#}
-{#        <thead>#}
-{#        <tr>#}
-{#            <th>Id</th>#}
-{#            <th>Prodname</th>#}
-{#            <th>Description</th>#}
-{#            <th>Img</th>#}
-{#            <th>actions</th>#}
-{#            <th>img</th>#}
-{#            <th>Categorie</th>#}
-{#            <th>Spec type</th>#}
-{#            <th>price</th>#}
-{#        </tr>#}
-{#        </thead>#}
-{#        <tbody>#}
-        {% for product in products %}
-{#            <tr>#}
-{#                <td>{{ product.id }}</td>#}
-{#                <td>{{ product.prodname }}</td>#}
-{#                <td>{{ product.description }}</td>#}
-{#                <td>{{ product.img }}</td>#}
-{#                <td>#}
-{#                    <a href="{{ path('product_show', {'id': product.id}) }}">show</a>#}
-{#                    <a href="{{ path('product_edit', {'id': product.id}) }}">edit</a>#}
-{#                </td>#}
-{#                <td><img src="{{ product.img }}" alt="je moer"></td>#}
-{#                <td>{{ product.categorie }}</td>#}
-<td>{% for specification in product.specifications %}
 
-        {#                        {{ specification }}#}
-    {% endfor %}
-    {#                </td>#}
-    {#                <td>{{ product.price }}</td>#}
-    {#            </tr>#}
-    {% else %}
-        {#            <tr>#}
-        {#                <td colspan="5">no records found</td>#}
-        {#            </tr>#}
-    {% endfor %}
-    {#        </tbody>#}
-    {#    </table>#}
+
     <div class="jmr">
-        <div class="pech">
+        <div class="d-flex">
             {% for product in products %}
                 <div id="prodcard{{ product.id }}" class="card">
-                    <img src="{{ product.img }}" alt="Denim Jeans" style="width:100%">
+                    <img class="prodimg" src="{{ product.img }}" alt="Denim Jeans" >
                     <h1>{{ product.prodname }}</h1>
                     <p class="price">€{{ product.price }}</p>
                     <p>{{ product.description }}</p>
@@ -58,7 +19,7 @@
                             {{ specification }}
                         {% endfor %}</p>
 
-                    <div class="fx-me-flex">
+                    <div class="d-flex justify-content-around">
                         <button value="minus" id="{{ product.id }}" class=" drgn btn">-</button>
                         <button value="plus" id="{{ product.id }}" class=" drgn btn ">+</button>
                     </div>
@@ -72,108 +33,7 @@
         </div>
     </div>
 
-    {#<div>#}
-    {#    <button class="btn-primary">-</button>#}
-    {#    <button class="btn-primary">+</button>#}
-    {#</div>#}
 
-
-    <style>
-
-        .fx-me-flex {
-            width: 100%;
-            display: flex;
-            justify-content: space-evenly;
-
-        }
-
-        .card {
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-            max-width: 300px;
-            margin: auto;
-            text-align: center;
-            font-family: arial;
-            padding: 5%;
-            border-radius: 5px;
-        }
-
-        .price {
-            color: grey;
-            font-size: 22px;
-        }
-
-        .drgn {
-            border: 3px solid black;
-            background-color: black;
-            color: white;
-            width: 30%;
-
-        }
-
-        .drgn:hover {
-            border: 3px solid black;
-            background-color: transparent;
-            color: black;
-        }
-
-        .jmr {
-            display: flex;
-            justify-content: space-between;
-            margin: 30px;
-        }
-
-        .pech {
-            display: flex;
-            justify-content: space-evenly;
-            flex-wrap: wrap;
-            /*align-content: center;*/
-        }
-
-    </style>
-    <script>
-        let arrbutton = document.getElementsByClassName('drgn');
-        for (i = 0; i < arrbutton.length; i++) {
-            arrbutton[i].addEventListener('click', function (event) {
-                ajax(event.target)
-            })
-        }
-
-        function ajax(element) {
-            // console.log(element.id)
-            let btnId = element.id;
-            let btnVal = element.value;
-            let newUrl = '/';
-
-            switch (btnVal) {
-                case 'minus':
-                    newUrl += 'minus/';
-                    break;
-                case 'plus':
-                    newUrl += 'drum/';
-                    break;
-            }
-            newUrl += btnId
-
-            // console.log(newUrl)
-            fetch(newUrl, {
-                method: 'GET',
-            }).then(function (response) {
-                return response.json()
-            }).then(function (data) {
-                // let paraElement = document.getElementById('amount' + btnId)
-
-                if (typeof data.products[btnId] == 'undefined') {
-                    document.getElementById('prodcard' + btnId).remove();
-                } else {
-                    document.getElementById('amount' + btnId).innerHTML = data.products[btnId].amount;
-
-                }
-
-
-            })
-        }
-
-    </script>
     <a href="{{ path('product_new') }}">Create new</a>
     {% endblock %}
     {#    // += neemt de bestaande waarde en voegt er iets aan toe          #}

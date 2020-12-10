@@ -8,6 +8,9 @@ use App\Entity\Product;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -117,37 +120,50 @@ class CartController extends AbstractController
         );
     }
 
+
+
+
     // this is the payment function
 
     /**
      * @Route("/payment", name="payment")
      */
-    public function order()
+    public function order(Request $request)
     {
         $order = new Order();
-        $user = $this->getUser();
-        $order->setUser($user);
-        $order->setPlacedAt(new \DateTime('now'));
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($order);
+        $builder = $this->createFormBuilder();
+        $form = $builder
+            ->add('submit', SubmitType::class, [
+                'attr' => ['class' => 'btn btn-primary'],
+            ])
+            ->getForm();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()){
+            $user = $this->getUser();
+            $order->setUser($user);
+            $order->setPlacedAt(new \DateTime('now'));
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($order);
 //        $em->flush();
-        foreach ($this->session->get('Products') as $product) {
-            $amount = $product->amount;
-            $orderhasproduct = new OrderHasProduct();
-            $orderhasproduct->setOrderkey($order);
-            $product = $em->getRepository(Product::class)->find($product->getId());
-            $orderhasproduct->setProductkey($product);;
-            $orderhasproduct->setAmount($amount);
-            $em->persist($orderhasproduct);
-            $em->flush();
-        };
-
+            foreach ($this->session->get('Products') as $product) {
+                $amount = $product->amount;
+                $orderhasproduct = new OrderHasProduct();
+                $orderhasproduct->setOrderkey($order);
+                $product = $em->getRepository(Product::class)->find($product->getId());
+                $orderhasproduct->setProductkey($product);;
+                $orderhasproduct->setAmount($amount);
+                $em->persist($orderhasproduct);
+                $em->flush();
+            };
+        }
 
         return $this->render('product/thanks.html.twig', [
-            'order' => $order
+            'order' => $order,
+            'submit' =>$form->createView()
         ]);
 
     }
+
     /**
      * @Route("/history", name="history")
      */
@@ -161,5 +177,3 @@ class CartController extends AbstractController
         ]);
     }
 }
-//        $object->propertyName = $value; // set property
-//        $variable = $object->propertyName // get property

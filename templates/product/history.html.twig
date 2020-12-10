@@ -2,23 +2,25 @@
 
 
 {% block body %}
+<div class="fx-me-flex">
 
     {% for order in orders %}
-        <div class="fx-me-flex">
-        <div id="prodcard{{ order.id }}" class="card">
-            <h1>{{ order.placedAt.format('d/m/Y') }}</h1>
-            {% for orderHasProduct in order.orderHasProducts %}
-                <p class="price">Product id {{ orderHasProduct.productkey.id }}</p>
-                <img src="{{ orderHasProduct.productkey.img }}" alt="Denim Jeans" style="width:100%">
+            <div id="prodcard{{ order.id }}" class="card pech">
+                <p>{{ order.placedAt.format('d/m/Y') }}</p>
+                {% for orderHasProduct in order.orderHasProducts %}
+                    <p class="price">Product id {{ orderHasProduct.productkey.id }}</p>
+                    <img src="{{ orderHasProduct.productkey.img }}" alt="Denim Jeans" style="width:100%">
 
-                            <p>{{ orderHasProduct.productkey.description }}</p>
-                            
-                <span>Amount:</span>
-                <span id="amount">{{ orderHasProduct.amount }}</span>
-            {% endfor %}
-        </div>
+                    <p>{{ orderHasProduct.productkey.description }}</p>
+
+                    <span>Amount:</span>
+                    <span id="amount">{{ orderHasProduct.amount }}</span>
+
+                {% endfor %}
+            </div>
     {% endfor %}
     </div>
+
 
 
 
@@ -27,7 +29,9 @@
         .fx-me-flex {
             width: 100%;
             display: flex;
-            justify-content: space-evenly;
+            justify-content: space-between;
+            flex-wrap: wrap;
+
 
         }
 

@@ -2,7 +2,13 @@
 
 {% block title %}Product index{% endblock %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="stylesheet.css">
+{% endblock %}
+
 {% block body %}
+
+
     <h1>Product index</h1>
 
 
@@ -14,11 +20,11 @@
         {% else %}
         {% endfor %}
 
-    <div class="d-flex justify-content-center">
+    <div class="prodflex">
         {% for product in products %}
             <div class="card">
-                <img src="{{ product.img }}" alt="Denim Jeans" style="width:100%">
-                <h1>{{ product.prodname }}</h1>
+                <img class="prodimg" src="{{ product.img }}" alt="Denim Jeans" style="width:100%">
+                <h3>{{ product.prodname }}</h3>
                 <p class="price">€{{ product.price }}</p>
                 <p>{{ product.description }}</p>
                 <p>{% for specification in product.specifications %}
@@ -29,36 +35,5 @@
             </div>
         {% endfor %}
     </div>
-
-    <style>
-        .card {
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-            max-width: 300px;
-            margin: auto;
-            text-align: center;
-            font-family: arial;
-        }
-
-        .price {
-            color: grey;
-            font-size: 22px;
-        }
-
-        .card button {
-            border: none;
-            outline: 0;
-            padding: 12px;
-            color: white;
-            background-color: #000;
-            text-align: center;
-            cursor: pointer;
-            width: 100%;
-            font-size: 18px;
-        }
-
-        .card button:hover {
-            opacity: 0.7;
-        }
-    </style>
-
+    
 {% endblock %}
