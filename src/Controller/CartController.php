@@ -138,7 +138,7 @@ class CartController extends AbstractController
             ])
             ->getForm();
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $user = $this->getUser();
             $order->setUser($user);
             $order->setPlacedAt(new \DateTime('now'));
@@ -159,7 +159,7 @@ class CartController extends AbstractController
 
         return $this->render('product/thanks.html.twig', [
             'order' => $order,
-            'submit' =>$form->createView()
+            'submit' => $form->createView()
         ]);
 
     }

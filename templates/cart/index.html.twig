@@ -7,19 +7,11 @@
 {% endblock %}
 
 {% block body %}
-
-
-    <h1>Product index</h1>
-
-
-        {% for product in products %}
-
-                {% for specification in product.specifications %}
-
-                    {% endfor %}
-        {% else %}
+    {% for product in products %}
+        {% for specification in product.specifications %}
         {% endfor %}
-
+    {% else %}
+    {% endfor %}
     <div class="prodflex">
         {% for product in products %}
             <div class="card">
@@ -28,12 +20,13 @@
                 <p class="price">€{{ product.price }}</p>
                 <p>{{ product.description }}</p>
                 <p>{% for specification in product.specifications %}
-
                         {{ specification }}
                     {% endfor %}</p>
-                <p><a href="{{ path('drum', {'id':product.id}) }}"><button>Add to Cart</button></a></p>
+                <p><a href="{{ path('drum', {'id':product.id}) }}">
+                        <button>Add to Cart</button>
+                    </a></p>
             </div>
         {% endfor %}
     </div>
-    
+
 {% endblock %}

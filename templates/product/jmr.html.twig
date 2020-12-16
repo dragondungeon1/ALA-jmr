@@ -3,37 +3,28 @@
 {% block title %}Product index{% endblock %}
 
 {% block body %}
-<h1>Cart index</h1>
-
-
-    <div class="jmr">
+    <div>
         <div class="d-flex">
             {% for product in products %}
                 <div id="prodcard{{ product.id }}" class="card">
-                    <img class="prodimg" src="{{ product.img }}" alt="Denim Jeans" >
+                    <img class="prodimg" src="{{ product.img }}" alt="Denim Jeans">
                     <h1>{{ product.prodname }}</h1>
                     <p class="price">€{{ product.price }}</p>
                     <p>{{ product.description }}</p>
                     <p>{% for specification in product.specifications %}
-
                             {{ specification }}
                         {% endfor %}</p>
-
                     <div class="d-flex justify-content-around">
                         <button value="minus" id="{{ product.id }}" class=" drgn btn">-</button>
                         <button value="plus" id="{{ product.id }}" class=" drgn btn ">+</button>
                     </div>
-
-
                     <span>Amount:</span>
                     <span id="amount{{ product.id }}">{{ product.amount }}</span>
-
                 </div>
             {% endfor %}
         </div>
     </div>
 
+    <a href="{{ '/payment' }}"><button class="btn btn-primary">buy me</button></a>
 
-    <a href="{{ path('product_new') }}">Create new</a>
-    {% endblock %}
-    {#    // += neemt de bestaande waarde en voegt er iets aan toe          #}
+{% endblock %}
