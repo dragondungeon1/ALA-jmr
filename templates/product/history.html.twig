@@ -8,10 +8,11 @@
             <div id="prodcard{{ order.id }}" class="card pech">
                 <p>{{ order.placedAt.format('d/m/Y') }}</p>
                 {% for orderHasProduct in order.orderHasProducts %}
-                    <p class="price">Product id {{ orderHasProduct.productkey.id }}</p>
-                    <img src="{{ orderHasProduct.productkey.img }}" alt="Denim Jeans" style="width:100%">
+{#                    <p class="price">Product id {{ orderHasProduct.productkey.id }}</p>#}
+                    <p class="">Product Name {{ orderHasProduct.productkey.prodname }}</p>
+{#                    <img src="{{ orderHasProduct.productkey.img }}" alt="Denim Jeans" style="width:100%">#}
 
-                    <p>{{ orderHasProduct.productkey.description }}</p>
+{#                    <p>{{ orderHasProduct.productkey.description }}</p>#}
 
                     <span>Amount:</span>
                     <span id="amount">{{ orderHasProduct.amount }}</span>
