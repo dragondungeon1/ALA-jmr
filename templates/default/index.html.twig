@@ -1,30 +1,30 @@
 {% extends 'base.html.twig' %}
-{#{% block title %}Hello DefaultController!{% endblock %}#}
+{# {% block title %}Hello DefaultController!{% endblock %} #}
 
 {% block body %}
-    {#    <style>#}
-    {#        .example-wrapper {#}
-    {#            margin: 1em auto;#}
-    {#            max-width: 800px;#}
-    {#            width: 95%;#}
-    {#            font: 18px/1.5 sans-serif;#}
-    {#        }#}
+    {# <style> #}
+    {# .example-wrapper { #}
+    {# margin: 1em auto; #}
+    {# max-width: 800px; #}
+    {# width: 95%; #}
+    {# font: 18px/1.5 sans-serif; #}
+    {# } #}
 
-    {#        .example-wrapper code {#}
-    {#            background: #F5F5F5;#}
-    {#            padding: 2px 6px;#}
-    {#        }#}
-    {#    </style>#}
+    {# .example-wrapper code { #}
+    {# background: #F5F5F5; #}
+    {# padding: 2px 6px; #}
+    {# } #}
+    {# </style> #}
 
-    {#<div class="example-wrapper">#}
-    {#    <h1>Hello {{ controller_name }}! ✅</h1>#}
+    {# <div class="example-wrapper"> #}
+    {# <h1>Hello {{ controller_name }}! ✅</h1> #}
 
-    {#    This friendly message is coming from:#}
-    {#    <ul>#}
-    {#        <li>Your controller at <code><a href="{{ 'C:/school/htdocs/kaasplank/kaasplank/src/Controller/DefaultController.php'|file_link(0) }}">src/Controller/DefaultController.php</a></code></li>#}
-    {#        <li>Your template at <code><a href="{{ 'C:/school/htdocs/kaasplank/kaasplank/templates/default/index.html.twig'|file_link(0) }}">templates/default/index.html.twig</a></code></li>#}
-    {#    </ul>#}
-    {#</div>#}
+    {# This friendly message is coming from: #}
+    {# <ul> #}
+    {# <li>Your controller at <code><a href="{{ 'C:/school/htdocs/kaasplank/kaasplank/src/Controller/DefaultController.php'|file_link(0) }}">src/Controller/DefaultController.php</a></code></li> #}
+    {# <li>Your template at <code><a href="{{ 'C:/school/htdocs/kaasplank/kaasplank/templates/default/index.html.twig'|file_link(0) }}">templates/default/index.html.twig</a></code></li> #}
+    {# </ul> #}
+    {# </div> #}
 
 
     <div class="parallax">
@@ -59,7 +59,9 @@
             <p class="test"> Our goal is to supply affordable and good performing laptops to everyone.
                 Click the button below to know more.
             </p>
-            <button class=mybutton> Explore</button>
+            <a href="{{ '/about_us' }}">
+                <button class=mybutton> Explore</button>
+            </a>
         </div>
 
         <div class="mycard jmr">
@@ -90,7 +92,7 @@
             </blockquote>
 
             <div class="prodflex">
-                {#                {% for product in products %}#}
+                {# {% for product in products %} #}
                 <div class="card">
                     <img class="prodimg" src="./img/asus.jpg" alt="Denim Jeans" style="width:100%">
                     <h3></h3>

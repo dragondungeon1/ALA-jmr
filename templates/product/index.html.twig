@@ -30,7 +30,7 @@
                     <a href="{{ path('product_show', {'id': product.id}) }}">show</a>
                     <a href="{{ path('product_edit', {'id': product.id}) }}">edit</a>
                 </td>
-                <td><img src="{{ product.img }}" alt="je moer"></td>
+                <td><img class="imgIntd" src="{{ product.img }}" alt="je moer"></td>
                 <td>{{ product.categorie }}</td>
                 <td>{% for specification in product.specifications %}
 
@@ -47,18 +47,26 @@
         </tbody>
     </table>
 
-    <div class="d-flex justify-content-center">
-        {% for product in products %}
-            <div class="card">
-                <img class="prodimg" src="{{ product.img }}" alt="Denim Jeans">
-                <h1>{{ product.prodname }}</h1>
-                <p class="price">€{{ product.price }}</p>
-                <p>{{ product.description }}</p>
-                <p><button>Add to Cart</button></p>
-            </div>
-        {% endfor %}
-    </div>
+{#    <div class="d-flex justify-content-center">#}
+{#        {% for product in products %}#}
+{#            <div class="card">#}
+{#                <img class="prodimg" src="{{ product.img }}" alt="Denim Jeans">#}
+{#                <h1>{{ product.prodname }}</h1>#}
+{#                <p class="price">€{{ product.price }}</p>#}
+{#                <p>{{ product.description }}</p>#}
+{#                <p><button>Add to Cart</button></p>#}
+{#            </div>#}
+{#        {% endfor %}#}
+{#    </div>#}
 
 
     <a href="{{ path('product_new') }}">Create new</a>
+
+    <style>
+
+        .imgIntd{
+            width: 50%;
+        }
+
+    </style>
 {% endblock %}

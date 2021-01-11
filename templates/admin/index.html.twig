@@ -18,18 +18,19 @@
     </style>
 
     <div class="example-wrapper">
-        <h1>Hallo Mein Fuhrer ✅</h1>
+        <h1>Hallo Admin ✅</h1>
 
-        This friendly message is coming from:
-        <ul>
-            <li>Your controller at <code><a
-                            href="{{ 'C:/school/htdocs/kaasplank/kaasplank/src/Controller/AdminController.php'|file_link(0) }}">src/Controller/AdminController.php</a></code>
-            </li>
-            <li>Your template at <code><a
-                            href="{{ 'C:/school/htdocs/kaasplank/kaasplank/templates/admin/index.html.twig'|file_link(0) }}">templates/admin/index.html.twig</a></code>
-            </li>
-        </ul>
+{#        This friendly message is coming from:#}
+{#        <ul>#}
+{#            <li>Your controller at <code><a#}
+{#                            href="{{ 'C:/school/htdocs/kaasplank/kaasplank/src/Controller/AdminController.php'|file_link(0) }}">src/Controller/AdminController.php</a></code>#}
+{#            </li>#}
+{#            <li>Your template at <code><a#}
+{#                            href="{{ 'C:/school/htdocs/kaasplank/kaasplank/templates/admin/index.html.twig'|file_link(0) }}">templates/admin/index.html.twig</a></code>#}
+{#            </li>#}
+{#        </ul>#}
     </div>
+    <script src="../public/konami.js"></script>
 
     <div>
         <ul class="list-group ">
@@ -41,4 +42,21 @@
             </li>
         </ul>
     </div>
+
+{#    <div>#}
+{#        <table class="table">#}
+{#            <th>Customer id</th>#}
+{#            <th>Products</th>#}
+{#            <th>Placed at</th>#}
+{#            {% for order in orders %}#}
+{#            <td>{{ order.id }}</td>#}
+{#            {% for orderHasProduct in order.orderHasProducts %}#}
+{#            <td>{{ orderHasProduct.productkey.prodname }}</td>#}
+{#            <td>{{ order.placedAt.format('d/m/Y') }}</td>#}
+{#            {% endfor %}#}
+{#            {% endfor %}#}
+{#        </table>#}
+{#    </div>#}
+
+
 {% endblock %}

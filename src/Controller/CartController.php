@@ -154,7 +154,11 @@ class CartController extends AbstractController
                 $orderhasproduct->setAmount($amount);
                 $em->persist($orderhasproduct);
                 $em->flush();
+                $this->session->clear();
             };
+            return $this->render('default/index.html.twig', [
+                'order' => $order,
+            ]);
         }
 
         return $this->render('product/thanks.html.twig', [
@@ -176,4 +180,19 @@ class CartController extends AbstractController
             'orders' => $orders
         ]);
     }
+
+
+
+//    /**
+//     * @Route("/print", name="print")
+//     */
+//    public function orderhistory()
+//    {
+//        $orders = $this->getUser()->getOrders();
+//
+//
+//        return $this->render('product/history.html.twig', [
+//            'orders' => $orders
+//        ]);
+//    }
 }

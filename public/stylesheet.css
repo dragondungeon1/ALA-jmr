@@ -10,8 +10,10 @@ html * {
     margin: auto;
     text-align: center;
     font-family: arial;
-    min-height: 300px;
+    min-height: 500px;
+    max-height: 800px;
 }
+
 
 .price {
     color: grey;
@@ -278,3 +280,4 @@ a, u {
     color: white;
     padding-top: 20px;
 }
+
