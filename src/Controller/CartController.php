@@ -15,6 +15,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Controller\MailController;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 
 class CartController extends AbstractController
@@ -37,6 +39,7 @@ class CartController extends AbstractController
     {
         $this->session();
         $products = $this->em->getRepository(Product::class)->findAll();
+
         return $this->render('cart/index.html.twig', [
             'controller_name' => 'CartController',
             'products' => $products,
@@ -49,6 +52,8 @@ class CartController extends AbstractController
         $foo = $this->session->get('session');
         $filters = $this->session->get('filters', []);
     }
+
+
 //this will be the add function
 
     /**
@@ -58,7 +63,6 @@ class CartController extends AbstractController
      */
     public function add(Product $product)
     {
-
 
         $products = $this->session->get('Products', []);
 //        dd(substr($_SERVER['HTTP_REFERER'], -4,-1));
@@ -74,14 +78,19 @@ class CartController extends AbstractController
         if (substr($_SERVER['HTTP_REFERER'], -4, -1) == 'car') {
             return $this->redirectToRoute('view');
         }
-        return new JsonResponse(
-            [
-                "status" => "200",
-                "products" => $products
-            ],
-            200
-        );
+
+        return $this->cartcounter();
+//        return new JsonResponse(
+//            [
+//                "status" => "200",
+//                "products" => $products,
+//            ],
+//            200
+//        );
+
     }
+
+
 
     /**
      * @Route("/view/", name="view")
@@ -90,10 +99,43 @@ class CartController extends AbstractController
     public function view()
     {
         $products = $this->session->get('Products', []);
+//        dd($products);
+        $total = 0;
+
+        foreach ($products as $product){
+           $total += $product->getPrice() * $product->amount;
+        }
         return $this->render('product/jmr.html.twig', [
-            'products' => $products
+            'products' => $products,
+            'total' => $total,
+
         ]);
     }
+
+
+    public function cartcounter()
+    {
+        $products = $this->session->get('Products', []);
+//        dd($products);
+        $total = 0;
+
+        foreach ($products as $product){
+            $total += $product->getPrice() * $product->amount;
+        }
+        return new JsonResponse(
+            [
+                "status" => "200",
+                "products" => $products,
+                'total' => $total,
+
+            ],
+            200
+        );
+    }
+
+
+
+
 
     /**
      * @Route("/minus/{id}", name="minus")
@@ -111,16 +153,17 @@ class CartController extends AbstractController
             }
         }
         $this->session->set('Products', $products);
-        return new JsonResponse(
-            [
-                "status" => "200",
-                "products" => $products
-            ],
-            200
-        );
+
+        return $this->cartcounter();
+
+//        return new JsonResponse(
+//            [
+//                "status" => "200",
+//                "products" => $products
+//            ],
+//            200
+//        );
     }
-
-
 
 
     // this is the payment function
@@ -130,9 +173,15 @@ class CartController extends AbstractController
      */
     public function order(Request $request)
     {
+        $mailer = new MailController();
+
         $order = new Order();
         $builder = $this->createFormBuilder();
         $form = $builder
+//            POST data for mailer
+//            ->add('orderid',HiddenType::class,[
+//                'data' => $order->getId()
+//            ] )
             ->add('submit', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-primary'],
             ])
@@ -144,7 +193,6 @@ class CartController extends AbstractController
             $order->setPlacedAt(new \DateTime('now'));
             $em = $this->getDoctrine()->getManager();
             $em->persist($order);
-//        $em->flush();
             foreach ($this->session->get('Products') as $product) {
                 $amount = $product->amount;
                 $orderhasproduct = new OrderHasProduct();
@@ -154,6 +202,9 @@ class CartController extends AbstractController
                 $orderhasproduct->setAmount($amount);
                 $em->persist($orderhasproduct);
                 $em->flush();
+//                Mail the order
+//                $mailer->mail( new \Swift_Mailer(new \Swift_SmtpTransport('smtp://5adbac5be7cbf0:330019d8eac8c5@smtp.mailtrap.io:2525?encryption=tls&auth_mode=login')) ,
+//                    $order);
                 $this->session->clear();
             };
             return $this->render('default/index.html.twig', [
@@ -180,6 +231,26 @@ class CartController extends AbstractController
             'orders' => $orders
         ]);
     }
+
+
+    /**
+     * @Route("/historyorder/{id}", name="historyorder")
+     * @param Order $order
+     * @return Response
+     */
+    public function orderspecific(Order $order): Response
+    {
+        $products = $order->getOrderHasProducts();
+
+
+
+        return $this->render('product/historyorder.html.twig', [
+            'products' => $products
+        ]);
+    }
+
+
+
 
 
 

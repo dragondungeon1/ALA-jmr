@@ -33,9 +33,8 @@ function ajax(element) {
             document.getElementById('prodcard' + btnId).remove();
         } else {
             document.getElementById('amount' + btnId).innerHTML = data.products[btnId].amount;
-
         }
-
+        document.getElementById('total').innerText = data.total
 
     })
 }

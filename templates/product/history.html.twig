@@ -16,8 +16,8 @@
 
                     <span>Amount:</span>
                     <span id="amount">{{ orderHasProduct.amount }}</span>
-
                 {% endfor %}
+                <a href="{{ path('historyorder',  {'id': order.id}) }}"> <button class="btn btn-primary">View</button></a>
             </div>
     {% endfor %}
     </div>
