@@ -90,36 +90,13 @@ class CartController extends AbstractController
 
     }
 
-
-
-    /**
-     * @Route("/view/", name="view")
-     * @return Response
-     */
-    public function view()
-    {
-        $products = $this->session->get('Products', []);
-//        dd($products);
-        $total = 0;
-
-        foreach ($products as $product){
-           $total += $product->getPrice() * $product->amount;
-        }
-        return $this->render('product/jmr.html.twig', [
-            'products' => $products,
-            'total' => $total,
-
-        ]);
-    }
-
-
     public function cartcounter()
     {
         $products = $this->session->get('Products', []);
 //        dd($products);
         $total = 0;
 
-        foreach ($products as $product){
+        foreach ($products as $product) {
             $total += $product->getPrice() * $product->amount;
         }
         return new JsonResponse(
@@ -133,9 +110,25 @@ class CartController extends AbstractController
         );
     }
 
+    /**
+     * @Route("/view/", name="view")
+     * @return Response
+     */
+    public function view()
+    {
+        $products = $this->session->get('Products', []);
+//        dd($products);
+        $total = 0;
 
+        foreach ($products as $product) {
+            $total += $product->getPrice() * $product->amount;
+        }
+        return $this->render('product/jmr.html.twig', [
+            'products' => $products,
+            'total' => $total,
 
-
+        ]);
+    }
 
     /**
      * @Route("/minus/{id}", name="minus")
@@ -241,7 +234,6 @@ class CartController extends AbstractController
     public function orderspecific(Order $order): Response
     {
         $products = $order->getOrderHasProducts();
-
 
 
         return $this->render('product/historyorder.html.twig', [
