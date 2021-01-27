@@ -241,21 +241,24 @@ class CartController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/discount/{code}", name="discount")
+     * @return Response
+     */
+    public function discountcounter()
+    {
+        $discount = $this->session->set('code' , 'discount');
 
 
+        return new JsonResponse(
+            [
+                "status" => "200",
+                "products" => $products,
+                'total' => $total,
 
+            ],
+            200
+        );
+    }
 
-
-//    /**
-//     * @Route("/print", name="print")
-//     */
-//    public function orderhistory()
-//    {
-//        $orders = $this->getUser()->getOrders();
-//
-//
-//        return $this->render('product/history.html.twig', [
-//            'orders' => $orders
-//        ]);
-//    }
 }
