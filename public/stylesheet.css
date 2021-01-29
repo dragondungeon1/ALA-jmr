@@ -307,3 +307,52 @@ a, u {
         height: 70% !important;
     }
 }
+
+.admin-card-wrapper{
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.admin-card{
+    text-align: center;
+    padding: 2%;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    /*max-width: 450px;*/
+
+}
+
+/*.admin-card img{*/
+/*    width: 150px;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*}*/
+
+.admin-img{
+    width: 200px;
+
+}
+
+
+.admin-hover:hover {
+    background-color: #2561D4;
+    color: white;
+    transition: ease-in 0.3s;
+    transition: ease-out 0.3s;
+    position: relative;
+    top: -10px;
+
+}
+
+.admin-hover:hover .test h2 {
+    color: white !important;
+    transition: ease-in 0.3s;
+
+}
+
+.admin-hover:hover .test p {
+    color: white !important;
+    transition: ease-in 0.3s;
+}
